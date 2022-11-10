@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    druid:
+      # 主库数据源
+        url: jdbc:mysql://localhost:3306/qqbot?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
+        username: root
+        password: 2825097536
+mybatis:
+  # 搜索指定包别名
+  typeAliasesPackage: cn.mikulink.luobin.domain
+  # 配置mapper的扫描，找到所有的mapper.xml映射文件
+  mapperLocations: classpath:mapper/*.xml
+  # 加载全局的配置文件
+  configLocation: classpath:mybatis/mybatis-config.xml
+
+bot:
+ version: v1.9.0
+ account: 1786627690
+ pwd: 2825097536lb
+masterId: 2825097536
+
