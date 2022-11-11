@@ -5,6 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 /**
  * 与主人有关的操作
  */
@@ -37,6 +40,7 @@ public class MasterUtil {
 
     /**
      * 判断是否以指令开头
+     *
      * @param target
      * @return
      */
@@ -44,12 +48,14 @@ public class MasterUtil {
         if (StringUtils.isEmpty(target)) return false;
         else return helloCommand.getCommand().stream().anyMatch(t -> target.startsWith(t));
     }
+
     /**
      * 清除开头的指令
+     *
      * @param target
      * @return
      */
-    public  static String[] clearBegin(String target){
+    public static String[] clearBegin(String target) {
         String s = helloCommand.getCommand().stream().filter(t -> target.startsWith(t)).findFirst().get();
         String substring = target.substring(s.length());
         return substring.split(" ");
@@ -57,10 +63,13 @@ public class MasterUtil {
 
     /**
      * 得到指令
+     *
      * @param target
      * @return
      */
-    public static String getCommand(String target){
-        return helloCommand.getCommand().stream().filter(t -> target.startsWith(t)).findFirst().get();
+    public static String getCommand(String target) {
+        List<String> collect = helloCommand.getCommand().stream().filter(t -> target.startsWith(t)).collect(Collectors.toList());
+        if (collect.size() == 1) return collect.get(0);
+        else return collect.stream().max((a, b) -> a.length() - b.length()).get();
     }
 }
