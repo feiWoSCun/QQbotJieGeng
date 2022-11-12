@@ -1,0 +1,40 @@
+package cn.jiegeng.luobin.service.impl;
+
+import cn.jiegeng.luobin.mapper.DialogueMapper;
+import cn.jiegeng.luobin.service.DialogueService;
+import cn.jiegeng.luobin.util.DateUtils;
+import cn.jiegeng.luobin.util.MathUtils;
+import cn.jiegeng.luobin.util.RedisUtil;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+@Service("dialogueService")
+@Transactional
+public class DialogueServiceImpl implements DialogueService {
+    final RedisUtil redisUtil;
+    final DialogueMapper dialogueMapper;
+
+    public DialogueServiceImpl(RedisUtil redisUtil, DialogueMapper dialogueMapper) {
+        this.redisUtil = redisUtil;
+        this.dialogueMapper = dialogueMapper;
+    }
+
+    /**
+     * 得到当前时间可以用的独白
+     * 针对主人的操作，用的很少.不存redis
+      * @return
+     */
+    @Override
+    public String getDialogues() {
+        //当前时间
+        int nowTime = DateUtils.getNowTime();
+        List<String> dialogues = dialogueMapper.getDialogues(nowTime);
+        String[] temp=new String[dialogues.size()];
+       String str[]=(String[]) dialogues.toArray(temp);
+        double random = MathUtils.getRandom();
+        //随机语录
+        int i=(int)(random*str.length);
+        return str[i];
+    }
+}

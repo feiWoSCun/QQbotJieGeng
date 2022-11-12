@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.mikulink.luobin.mapper.DialogueMapper">
+<mapper namespace="cn.jiegeng.luobin.mapper.DialogueMapper">
 <select id="getDialogues" resultType="string">
     select dialogue_nr from dialogue where dialoge_time=4 or dialoge_time=#{nowTime}
 </select>

@@ -6,9 +6,24 @@ spring:
         url: jdbc:mysql://localhost:3306/qqbot?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=false&serverTimezone=GMT%2B8
         username: root
         password: 2825097536
+  # redis 配置
+  redis:
+    # 地址
+    #host: 192.168.240.1
+    host: 43.139.64.3
+    #端口，默认为6379
+    port: 6379
+    # 数据库索引
+    database: 1
+    # 密码
+    #password: Rsxhr4662.
+    # 连接超时时间
+    timeout: 10s
+
+
 mybatis:
   # 搜索指定包别名
-  typeAliasesPackage: cn.mikulink.luobin.domain
+  typeAliasesPackage: cn.jiegeng.luobin.domain
   # 配置mapper的扫描，找到所有的mapper.xml映射文件
   mapperLocations: classpath:mapper/*.xml
   # 加载全局的配置文件
