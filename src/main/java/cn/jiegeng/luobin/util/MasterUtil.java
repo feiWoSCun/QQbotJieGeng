@@ -2,6 +2,11 @@ package cn.jiegeng.luobin.util;
 
 import cn.jiegeng.luobin.command.HelloCommand;
 import cn.jiegeng.luobin.command.enums.HelloEnums;
+import net.mamoe.mirai.event.events.FriendMessageEvent;
+import net.mamoe.mirai.event.events.MessageEvent;
+import net.mamoe.mirai.message.data.At;
+import net.mamoe.mirai.message.data.MessageChain;
+import net.mamoe.mirai.message.data.PlainText;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -57,7 +62,7 @@ public class MasterUtil {
      * @return
      */
     public static String[] clearBegin(String target) {
-        String s = helloCommand.getCommand().stream().filter(t -> target.startsWith(t)).findFirst().get();
+        String s = getCommand(target);
         String substring = target.substring(s.length());
         String[] temp = substring.split(" ");
         List<String> collect = Arrays.stream(temp).filter(t -> !"".equals(t)).collect(Collectors.toList());
@@ -66,7 +71,6 @@ public class MasterUtil {
     }
     /**
      * 得到指令
-     *
      * @param target
      * @return
      */
@@ -74,5 +78,14 @@ public class MasterUtil {
         List<String> collect = helloCommand.getCommand().stream().filter(t -> target.startsWith(t)).collect(Collectors.toList());
         if (collect.size() == 1) return collect.get(0);
         else return collect.stream().max((a, b) -> a.length() - b.length()).get();
+    }
+    public static MessageChain commonSay(MessageEvent event){
+        if(event instanceof FriendMessageEvent){
+            new PlainText("").plus("");
+        }
+        else{
+            return new At(event.getSender().getId()).plus("\n");
+        }
+        return new PlainText("").plus("");
     }
 }

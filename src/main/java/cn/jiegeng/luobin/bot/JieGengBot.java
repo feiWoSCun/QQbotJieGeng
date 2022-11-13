@@ -84,10 +84,14 @@ public class JieGengBot implements ApplicationRunner {
         //注册指令
         Set<String> command = commandMapper.getCommand();
         helloCommand.setCommand(command);
+        redisUtil.SAddSet("command",command);
         //注册事件
         List<ListenerHost> events = Arrays.asList(
                 baseEvent
         );
+        /**
+         * 注册事件给桔梗
+         */
         for (ListenerHost event : events) {
             GlobalEventChannel.INSTANCE.registerListenerHost(event);
         }

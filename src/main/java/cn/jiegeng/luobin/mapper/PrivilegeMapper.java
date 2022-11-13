@@ -12,7 +12,7 @@ public interface PrivilegeMapper {
      * @param number
      * @return
      */
-    int addPrivilege(@Param("number") String number);
+    int addPrivilege(@Param("number") String number,@Param("privilege")int privilege );
 
     /**
      * 得到所有的权限

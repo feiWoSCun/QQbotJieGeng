@@ -32,6 +32,7 @@ public class RedisUtil {
         return this.redisTemplate;
     }
 
+
     /** -------------------key相关操作--------------------- */
 
     /**
@@ -743,6 +744,19 @@ public class RedisUtil {
     public Long lLen(String key) {
         return redisTemplate.opsForList().size(key);
     }
+
+
+    /**
+     * 往set集合里添加一个set
+     *
+     * @param key
+     * @param set
+     */
+    public void SAddSet(String key, Set<String> set) {
+        String[] strArr = set.toArray(new String[set.size()]);
+        sAdd(key, strArr);
+    }
+
 
     /** --------------------set相关操作-------------------------- */
 

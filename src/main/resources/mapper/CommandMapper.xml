@@ -5,4 +5,5 @@
         select t.command_key
         from command t
     </select>
+
 </mapper>

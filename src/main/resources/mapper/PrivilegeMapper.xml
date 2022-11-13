@@ -10,4 +10,7 @@
         select *
         from privileges
     </select>
+    <insert id="addPrivilege" useGeneratedKeys="true" keyProperty="id">
+        insert into privileges (qq_number, privileges) value (#{number},#{privilege}) ;
+    </insert>
 </mapper>
