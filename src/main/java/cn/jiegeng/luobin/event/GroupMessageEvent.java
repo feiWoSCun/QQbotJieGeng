@@ -99,7 +99,7 @@ public class GroupMessageEvent {
             event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("阁下传入的数据格式有误,添加失败＞﹏＜"));
             return ListeningStatus.LISTENING;
         }
-        String number = nrArr[0];
+        String number =  nrArr[0];
         String privilege = nrArr[1];
         int i=1;
         new Thread(()->privilegeMapper.addPrivilege(number, Integer.valueOf(privilege))).start();
