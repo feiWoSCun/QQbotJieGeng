@@ -13,4 +13,7 @@
     <insert id="addPrivilege" >
         insert into privileges (qq_number, privileges) value (#{number},#{privilege}) ;
     </insert>
+    <update id="changePrivilege">
+        update privileges set privileges=#{privilege} where qq_number =#{number};
+    </update>
 </mapper>

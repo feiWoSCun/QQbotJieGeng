@@ -1,4 +1,5 @@
 /*
+
 package cn.jiegeng.luobin.aop;
 
 import cn.jiegeng.luobin.annotation.CommandAnnotation;
@@ -22,7 +23,6 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
-
 */
 /**
  * aop事件,对所有事件进行权限判断
@@ -30,6 +30,7 @@ import java.util.Arrays;
  * @author 罗彬的电脑
  * @date 2022/11/13
  *//*
+
 
 @Component
 @Aspect
@@ -42,8 +43,7 @@ public class EventAop {
         this.helloCommand = helloCommand;
         this.redisUtil = redisUtil;
     }
-
-    @Pointcut("@annotation(cn.jiegeng.luobin.annotation.CommandAnnotation)")
+ @Pointcut("@annotation(cn.jiegeng.luobin.annotation.CommandAnnotation)")
     public void targetTar() {
     }
 
@@ -62,7 +62,6 @@ public class EventAop {
             event.getSender().sendMessage(new At(id).plus(HelloEnums.NOPRIVILEGES.getSayHello()));
         }
     }
-
     @Pointcut(value = "execution(public * cn.jiegeng.luobin.event.*.*(..)))")
     private void test() {
     }
@@ -76,11 +75,11 @@ public class EventAop {
         Method targetMethod = methodSignature.getMethod();
         signerCheck(targetMethod, event);
     }
-
-    */
+*/
 /**
      * 签名检查
      *//*
+
 
     private void signerCheck(Method targetMethod, MessageEvent event) {
         // 业务逻辑中需要进行增强的操作
