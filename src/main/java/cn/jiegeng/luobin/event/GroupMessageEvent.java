@@ -95,20 +95,7 @@ public class GroupMessageEvent {
 
     @CommandAnnotation(method = "桔梗桔梗 add")
     public static ListeningStatus addCommand(MessageEvent event, String[] nrArr) {
-        if (StringUtils.isNull(nrArr) || !StringUtils.isNumber(nrArr)) {
-            event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("阁下传入的数据格式有误,添加失败＞﹏＜"));
-            return ListeningStatus.LISTENING;
-        }
-        String number =  nrArr[0];
-        String privilege = nrArr[1];
-        int i=1;
-        new Thread(()->privilegeMapper.addPrivilege(number, Integer.valueOf(privilege))).start();
-        if (i == 1) {
-            event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("添加管理员+" + nrArr[0] + "成功" + "＞﹏＜"));
-            return ListeningStatus.LISTENING;
-        } else {
-            event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("桔梗不知道发生什么事了,添加失败＞﹏＜"));
-            return ListeningStatus.LISTENING;
-        }
+        privilegeService.addUser(event, nrArr);
+        return ListeningStatus.LISTENING;
     }
 }
