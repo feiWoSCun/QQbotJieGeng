@@ -29,9 +29,8 @@ public class StringUtils extends org.apache.commons.lang3.StringUtils {
      * @return
      */
     public static boolean isNumber(String str) {
-        if (str == null)
-            return false;
-        return str.matches("[0-9]{1,}");
+        if (str == null) return false;
+        return str.matches("[0-9]+");
     }
     /**
      * 判断字符串数组是不是数字

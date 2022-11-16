@@ -6,22 +6,18 @@ import cn.jiegeng.luobin.command.enums.HelloEnums;
 import cn.jiegeng.luobin.domain.dto.AnswerDto;
 import cn.jiegeng.luobin.mapper.DialogueMapper;
 import cn.jiegeng.luobin.mapper.PrivilegeMapper;
+import cn.jiegeng.luobin.service.CpService;
 import cn.jiegeng.luobin.service.DialogueService;
 import cn.jiegeng.luobin.service.PrivilegeService;
 import cn.jiegeng.luobin.util.MasterUtil;
-import cn.jiegeng.luobin.util.StringUtils;
+import cn.jiegeng.luobin.util.RedisUtil;
 import cn.jiegeng.luobin.util.apiutil.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
-import lombok.ToString;
 import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.events.MessageEvent;
-import net.mamoe.mirai.message.data.At;
-import net.mamoe.mirai.message.data.MessageChain;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.lang.reflect.Method;
 
 /**
  * 群消息事件,可接受私聊
@@ -32,6 +28,8 @@ import java.lang.reflect.Method;
 @Component
 @Data
 public class GroupMessageEvent {
+    private static CpService cpService;
+    private static RedisUtil redisUtil;
     private static PrivilegeMapper privilegeMapper;
 
     private static DialogueMapper mapper;
@@ -41,11 +39,13 @@ public class GroupMessageEvent {
 
 
     @Autowired
-    public GroupMessageEvent(DialogueMapper mapper, DialogueService dialogueService, PrivilegeService privilegeService, PrivilegeMapper privilegeMapper) {
+    public GroupMessageEvent(DialogueMapper mapper, DialogueService dialogueService, PrivilegeService privilegeService, PrivilegeMapper privilegeMapper, RedisUtil redisUtil, CpService cpService) {
         this.mapper = mapper;
         this.dialogueService = dialogueService;
         this.privilegeService = privilegeService;
         this.privilegeMapper = privilegeMapper;
+        this.redisUtil = redisUtil;
+        this.cpService = cpService;
     }
 
     public GroupMessageEvent() {
@@ -98,4 +98,31 @@ public class GroupMessageEvent {
         privilegeService.addUser(event, nrArr);
         return ListeningStatus.LISTENING;
     }
+
+    /**
+     * 存储 cp
+     *
+     * @param event
+     * @param nrArr
+     * @return
+     */
+    @CommandAnnotation(method = "桔梗桔梗 cp")
+    public static ListeningStatus rememberThings(MessageEvent event, String[] nrArr) {
+        cpService.Store(event, nrArr);
+        return ListeningStatus.LISTENING;
+    }
+
+    /**
+     * 得到存储值
+     *
+     * @param event
+     * @param nrArr
+     * @return
+     */
+    @CommandAnnotation(method = "桔梗桔梗 get")
+    public static ListeningStatus getKV(MessageEvent event, String[] nrArr) {
+        cpService.get(event, nrArr);
+        return ListeningStatus.LISTENING;
+    }
+
 }

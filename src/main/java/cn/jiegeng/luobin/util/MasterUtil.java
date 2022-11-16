@@ -11,8 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.security.auth.Subject;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
@@ -20,13 +23,30 @@ import java.util.stream.Collectors;
  */
 @Component
 public class MasterUtil {
+    private static RedisUtil redisUtil;
     private static HelloCommand helloCommand;
     @Value("${masterId}")
     static long masterId = 2825097536l;
-    
+
     @Autowired
-    public MasterUtil(HelloCommand helloCommand) {
+    public MasterUtil(HelloCommand helloCommand, RedisUtil redisUtil) {
         this.helloCommand = helloCommand;
+        this.redisUtil = redisUtil;
+    }
+
+
+    public static String getUUID(MessageEvent event) {
+        boolean b = true;
+        String substring = null;
+        while (b) {
+            System.out.println("oooo");
+            substring = UUID.nameUUIDFromBytes(String.valueOf(System.currentTimeMillis()).getBytes()).toString().substring(0, 3);
+            Set<String> uuid = redisUtil.setMembers("uuid");
+            String finalSubstring = substring;
+            b = uuid.stream().anyMatch(t -> finalSubstring.equals(t));
+        }
+        redisUtil.sAdd("uuid", substring);
+        return substring;
     }
 
     /**
@@ -55,6 +75,7 @@ public class MasterUtil {
         if (StringUtils.isEmpty(target)) return false;
         else return helloCommand.getCommand().stream().anyMatch(t -> target.startsWith(t));
     }
+
     /**
      * 清除开头的指令
      *
@@ -69,8 +90,10 @@ public class MasterUtil {
         String[] strings = new String[(collect.size())];
         return collect.toArray(strings);
     }
+
     /**
      * 得到指令
+     *
      * @param target
      * @return
      */
@@ -79,11 +102,11 @@ public class MasterUtil {
         if (collect.size() == 1) return collect.get(0);
         else return collect.stream().max((a, b) -> a.length() - b.length()).get();
     }
-    public static MessageChain commonSay(MessageEvent event){
-        if(event instanceof FriendMessageEvent){
+
+    public static MessageChain commonSay(MessageEvent event) {
+        if (event instanceof FriendMessageEvent) {
             new PlainText("").plus("");
-        }
-        else{
+        } else {
             return new At(event.getSender().getId()).plus("\n");
         }
         return new PlainText("").plus("");

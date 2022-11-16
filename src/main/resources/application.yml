@@ -19,6 +19,7 @@ spring:
     #password: Rsxhr4662.
     # 连接超时时间
     timeout: 10s
+    password: 2825097536lb
 logging:
   level:
     cn.jiegeng.luobin.mapper: debug

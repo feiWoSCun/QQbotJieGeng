@@ -29,10 +29,10 @@ public class BaseEvent extends SimpleListenerHost {
     @EventHandler
     public ListeningStatus sayHello(MessageEvent event) {
         long id = event.getSender().getId();
-        if (id == 3256586077l) {
+     /*   if (id == 3256586077l) {
             event.getSubject().sendMessage(new At(id).plus("芳娃闭嘴"));
             return ListeningStatus.LISTENING;
-        }
+        }*/
         String s = event.getMessage().contentToString();
         //判断是不是命令
         if (MasterUtil.judgeIfStartWith(s) && StringUtils.isNotEmpty(s)) {

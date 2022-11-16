@@ -1,12 +1,10 @@
 /*
-
 package cn.jiegeng.luobin.aop;
-
 import cn.jiegeng.luobin.annotation.CommandAnnotation;
 import cn.jiegeng.luobin.command.HelloCommand;
 import cn.jiegeng.luobin.command.enums.HelloEnums;
 import cn.jiegeng.luobin.util.RedisUtil;
-import net.mamoe.mirai.event.Event;
+import net.mamoe.mirai.event.Event;10
 import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.At;
 import org.aspectj.lang.JoinPoint;
@@ -20,7 +18,6 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
 import java.lang.reflect.Method;
 import java.util.Arrays;
 */

@@ -1,5 +1,11 @@
 package cn.jiegeng.luobin.service;
 
-public interface CpService {
+import net.mamoe.mirai.event.events.MessageEvent;
 
+public interface CpService {
+    int add(String key, String value, long number);
+
+    public void Store(MessageEvent event, String[] nrArr);
+
+    public void get(MessageEvent event, String[] nrArr);
 }
