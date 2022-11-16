@@ -1,6 +1,7 @@
 package cn.jiegeng.luobin.command.enums;
 
 public enum HelloEnums {
+    FORMATWRONG("格式错误"),
     MORNING("早上好"),
     AFTERNOON("中午好"),
     EVENING("晚上好"),

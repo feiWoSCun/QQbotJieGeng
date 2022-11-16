@@ -2,9 +2,11 @@ package cn.jiegeng.luobin.bot;
 
 
 import cn.jiegeng.luobin.command.HelloCommand;
+import cn.jiegeng.luobin.domain.dto.Dialogue;
 import cn.jiegeng.luobin.domain.vo.UserPri;
 import cn.jiegeng.luobin.event.handler.BaseEvent;
 import cn.jiegeng.luobin.mapper.CommandMapper;
+import cn.jiegeng.luobin.mapper.DialogueMapper;
 import cn.jiegeng.luobin.mapper.PrivilegeMapper;
 import cn.jiegeng.luobin.util.RedisUtil;
 import net.mamoe.mirai.Bot;
@@ -23,13 +25,12 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @Description: \兔子万岁/
- * @author: MikuLink
- * @date: 2020/12/14 13:46
- **/
-
+ * 桔梗bot
+ */
 @Component
 public class JieGengBot implements ApplicationRunner {
+
+    final DialogueMapper dialogueMapper;
 
     final RedisUtil redisUtil;
     final HelloCommand helloCommand;
@@ -42,12 +43,13 @@ public class JieGengBot implements ApplicationRunner {
     @Autowired
     public JieGengBot(BaseEvent baseEvent, CommandMapper commandMapper,
                       HelloCommand helloCommand, PrivilegeMapper privilegeMapper,
-                      RedisUtil redisUtil) {
+                      RedisUtil redisUtil, DialogueMapper dialogueMapper) {
         this.baseEvent = baseEvent;
         this.commandMapper = commandMapper;
         this.helloCommand = helloCommand;
         this.privilegeMapper = privilegeMapper;
         this.redisUtil = redisUtil;
+        this.dialogueMapper = dialogueMapper;
     }
 
     public static Bot getBot() {
@@ -81,6 +83,9 @@ public class JieGengBot implements ApplicationRunner {
             }
         });
         bot.login();
+        //注册打招呼语录
+        List<Dialogue> dialogsDto = dialogueMapper.getDialogsDto();
+        dialogsDto.stream().filter(t->t.getAnswerId()!=0&&t.getDialogueTime()==5).forEach(t->redisUtil.sAdd(String.valueOf(t.getAnswerId()),t.getNr()));
         //注册指令
         Set<String> command = commandMapper.getCommand();
         helloCommand.setCommand(command);

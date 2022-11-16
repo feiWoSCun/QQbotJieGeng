@@ -5,5 +5,7 @@
         select t.command_key
         from command t
     </select>
-
+<insert id="addCommand" parameterType="command">
+    insert into command(command_key, creat_time, creat_user,id) value(#{key},#{date},#{user},#{id})
+</insert>
 </mapper>

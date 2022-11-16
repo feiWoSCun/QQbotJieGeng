@@ -124,5 +124,11 @@ public class GroupMessageEvent {
         cpService.get(event, nrArr);
         return ListeningStatus.LISTENING;
     }
+    @CommandAnnotation(method = "桔梗桔梗 addC")
+    public static ListeningStatus addC(MessageEvent event, String[] nrArr) {
+        dialogueService.addC(event, nrArr);
+        return ListeningStatus.LISTENING;
+    }
+
 
 }
