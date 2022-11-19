@@ -10,5 +10,5 @@ import java.util.List;
 public interface DialogueMapper {
    List<String> getDialogues(@Param("nowTime") int nowTime);
 List<Dialogue> getDialogsDto();
-int addDialogue(@Param("dialogue") Dialogue dialogue);
+int addDialogue( Dialogue dialogue);
 }

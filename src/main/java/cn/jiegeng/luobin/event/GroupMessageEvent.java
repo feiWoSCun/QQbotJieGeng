@@ -126,6 +126,7 @@ public class GroupMessageEvent {
     }
     @CommandAnnotation(method = "桔梗桔梗 addC")
     public static ListeningStatus addC(MessageEvent event, String[] nrArr) {
+
         dialogueService.addC(event, nrArr);
         return ListeningStatus.LISTENING;
     }

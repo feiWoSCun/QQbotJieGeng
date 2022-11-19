@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.security.auth.Subject;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -73,7 +72,7 @@ public class MasterUtil {
      */
     public static Boolean judgeIfStartWith(String target) {
         if (StringUtils.isEmpty(target)) return false;
-        else return helloCommand.getCommand().stream().anyMatch(t -> target.startsWith(t));
+        else return redisUtil.setMembers("command").stream().anyMatch(t -> target.startsWith(t));
     }
 
     /**
@@ -109,6 +108,7 @@ public class MasterUtil {
         } else {
             return new At(event.getSender().getId()).plus("\n");
         }
+        //生成一个消息链
         return new PlainText("").plus("");
     }
 }

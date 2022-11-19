@@ -8,5 +8,7 @@ import java.util.Set;
 @Repository
 public interface CommandMapper {
     Set<String> getCommand();
-    int addCommand(@Param("command") Command command);
+    int addCommand(Command command);
+
+    int getId(@Param(("str")) String str);
 }

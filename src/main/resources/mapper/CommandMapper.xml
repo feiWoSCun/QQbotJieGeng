@@ -5,7 +5,10 @@
         select t.command_key
         from command t
     </select>
-<insert id="addCommand" parameterType="command">
+<insert id="addCommand" parameterType="Command">
     insert into command(command_key, creat_time, creat_user,id) value(#{key},#{date},#{user},#{id})
 </insert>
+    <select id="getId" resultType="integer">
+        select id from command where command.command_key=#{str};
+    </select>
 </mapper>

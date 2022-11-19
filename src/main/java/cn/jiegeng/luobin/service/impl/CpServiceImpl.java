@@ -40,7 +40,6 @@ public class CpServiceImpl implements CpService {
         myPool.execute(thread);
         return 1;
     }
-
     public void Store(MessageEvent event,String[] nrArr){
         if(StringUtils.isNull(nrArr)||nrArr.length>=3){
             event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("存储的格式有误"));

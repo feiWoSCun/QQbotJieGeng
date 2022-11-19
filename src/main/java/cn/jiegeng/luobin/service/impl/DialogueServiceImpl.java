@@ -6,10 +6,7 @@ import cn.jiegeng.luobin.domain.vo.Command;
 import cn.jiegeng.luobin.mapper.CommandMapper;
 import cn.jiegeng.luobin.mapper.DialogueMapper;
 import cn.jiegeng.luobin.service.DialogueService;
-import cn.jiegeng.luobin.util.DateUtils;
-import cn.jiegeng.luobin.util.MasterUtil;
-import cn.jiegeng.luobin.util.MathUtils;
-import cn.jiegeng.luobin.util.RedisUtil;
+import cn.jiegeng.luobin.util.*;
 import net.mamoe.mirai.event.events.MessageEvent;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -61,23 +58,36 @@ public class DialogueServiceImpl implements DialogueService {
      * @param nrArr
      */
     public void addC(MessageEvent event, String[] nrArr) {
-        if (nrArr.length != 2) {
+        if (nrArr.length != 2|| StringUtils.isEmpty(nrArr)) {
             event.getSubject().sendMessage(MasterUtil.commonSay(event).plus(HelloEnums.FORMATWRONG.getSayHello()));
             return;
         }
         Thread thread = new Thread(() -> {
+            int j=-1;
+            int i=-1;
             SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
             String format = simpleDateFormat.format(new Date());
             int l = Integer.valueOf(String.valueOf(System.currentTimeMillis()).substring(4));
-            Command command = Command.builder().date(format).user(String.valueOf(event.getSubject().getId())).key(nrArr[0]).id(l).build();
-            Dialogue dialogue = Dialogue.builder().dialogueTime(5).nr(nrArr[1]).answerId(l).build();
-            int i = commandMapper.addCommand(command);
-            int j = dialogueMapper.addDialogue(dialogue);
-            if (i == 1 && j == 1) {
-                event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("添加命令" + nrArr[0] + "成功"));
-                redisUtil.sAdd(String.valueOf(l), nrArr[1]);
-                redisUtil.sAdd("command", nrArr[0]);
-            } else event.getSubject().sendMessage(MasterUtil.commonSay(event).plus(HelloEnums.DONTKNOW.getSayHello()));
+            //是否存在命令
+            boolean b = redisUtil.setMembers("command").stream().anyMatch(t -> nrArr[0].equals(t));
+            if(!b) {
+                Command command = Command.builder().date(format).user(String.valueOf(event.getSender().getId())).key(nrArr[0]).id(l).build();
+                i = commandMapper.addCommand(command);
+                Dialogue dialogue = Dialogue.builder().dialogueTime(5).nr(nrArr[1]).answerId(l).build();
+                j= dialogueMapper.addDialogue(dialogue);
+                if (i == 1 && j == 1) {
+                    event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("添加命令" + nrArr[0] + "成功"));
+                    redisUtil.sAdd("command", nrArr[0]);
+                } else event.getSubject().sendMessage(MasterUtil.commonSay(event).plus(HelloEnums.DONTKNOW.getSayHello()));
+            }
+           if(b){
+               l=commandMapper.getId(nrArr[0]);
+               Dialogue dialogue = Dialogue.builder().dialogueTime(5).nr(nrArr[1]).answerId(l).build();
+               j= dialogueMapper.addDialogue(dialogue);
+               if(j!=1)  new RuntimeException("添加回复失败");
+               else   event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("添加命令" + nrArr[0] + "成功"));
+           }
+            redisUtil.sAdd(nrArr[0], nrArr[1]);
         });
         thread.setName("添加指令的线程");
         myPool.execute(thread);

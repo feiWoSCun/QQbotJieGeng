@@ -16,7 +16,7 @@
         select t.dialoge_time, t.dialogue_nr, t.answerId
         from dialogue t;
     </select>
-    <insert id="addDialogue" parameterType="dialogue">
+    <insert id="addDialogue" parameterType="Dialogue">
         insert into dialogue(dialogue_nr, dialoge_time, answerId) value(#{nr},#{dialogueTime},#{answerId})
     </insert>
 </mapper>
