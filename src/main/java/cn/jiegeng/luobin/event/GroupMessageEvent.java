@@ -93,7 +93,7 @@ public class GroupMessageEvent {
         return ListeningStatus.LISTENING;
     }
 
-    @CommandAnnotation(method = "桔梗桔梗 add")
+    @CommandAnnotation(method = "桔梗桔梗 add",privilege = 1)
     public static ListeningStatus addCommand(MessageEvent event, String[] nrArr) {
         privilegeService.addUser(event, nrArr);
         return ListeningStatus.LISTENING;
@@ -124,7 +124,7 @@ public class GroupMessageEvent {
         cpService.get(event, nrArr);
         return ListeningStatus.LISTENING;
     }
-    @CommandAnnotation(method = "桔梗桔梗 addC")
+    @CommandAnnotation(method = "桔梗桔梗 addC",privilege = 2)
     public static ListeningStatus addC(MessageEvent event, String[] nrArr) {
 
         dialogueService.addC(event, nrArr);

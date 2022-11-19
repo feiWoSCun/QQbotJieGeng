@@ -1,32 +1,30 @@
-/*
+
 package cn.jiegeng.luobin.aop;
+
 import cn.jiegeng.luobin.annotation.CommandAnnotation;
 import cn.jiegeng.luobin.command.HelloCommand;
 import cn.jiegeng.luobin.command.enums.HelloEnums;
 import cn.jiegeng.luobin.util.RedisUtil;
-import net.mamoe.mirai.event.Event;10
 import net.mamoe.mirai.event.events.MessageEvent;
 import net.mamoe.mirai.message.data.At;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
-import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
 import java.lang.reflect.Method;
 import java.util.Arrays;
-*/
 /**
  * aop事件,对所有事件进行权限判断
  *
  * @author 罗彬的电脑
  * @date 2022/11/13
- *//*
+ */
 
 
 @Component
@@ -72,10 +70,9 @@ public class EventAop {
         Method targetMethod = methodSignature.getMethod();
         signerCheck(targetMethod, event);
     }
-*/
 /**
      * 签名检查
-     *//*
+     */
 
 
     private void signerCheck(Method targetMethod, MessageEvent event) {
@@ -91,4 +88,3 @@ public class EventAop {
         }
     }
 }
-*/
