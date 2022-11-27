@@ -38,14 +38,12 @@ public class BaseEvent extends SimpleListenerHost {
         if(b){
             String member = redisUtil.sRandomMember(s);
             if (member!=null&&member.length()>0)
-            event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("让我猜猜怎么回复,这样可以吗？ \n").plus(member));
+            event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("").plus(member));
             return ListeningStatus.LISTENING;
         }
 
         //判断是不是命令
         if (MasterUtil.judgeIfStartWith(s) && StringUtils.isNotEmpty(s)) {
-
-
             //得到命令
             String command = MasterUtil.getCommand(s);
             //把命令清除后,得到剩下的内容

@@ -13,12 +13,12 @@ import java.lang.annotation.Target;
 public @interface CommandAnnotation {
     /**
      * 需要反射的方法
-     * @return
+     * @return 需要反射的方法名字
      */
     String method() default "";
     /**
      * 权限校验
-     * @return
+     * @return 用于权限判断
      */
     int privilege() default 114514;
 }

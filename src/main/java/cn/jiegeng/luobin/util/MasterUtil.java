@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
  */
 @Component
 public class MasterUtil {
-    private static RedisUtil redisUtil;
+    public static RedisUtil redisUtil;
     private static HelloCommand helloCommand;
     @Value("${masterId}")
     static long masterId = 2825097536l;
