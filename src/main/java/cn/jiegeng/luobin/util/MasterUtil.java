@@ -104,7 +104,6 @@ public class MasterUtil {
 
     public static MessageChain commonSay(MessageEvent event) {
         if (event instanceof FriendMessageEvent) {
-            new PlainText("").plus("");
         } else {
             return new At(event.getSender().getId()).plus("\n");
         }

@@ -23,6 +23,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.github.plexpt</groupId>
+            <artifactId>chatgpt</artifactId>
+            <version>1.0.3</version>
+        </dependency>
+        <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>1.9.9.1</version>

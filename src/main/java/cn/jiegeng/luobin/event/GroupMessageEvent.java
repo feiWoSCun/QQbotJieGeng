@@ -1,6 +1,7 @@
 package cn.jiegeng.luobin.event;
 
 import cn.jiegeng.luobin.annotation.CommandAnnotation;
+import cn.jiegeng.luobin.ashin.service.InteractService;
 import cn.jiegeng.luobin.command.enums.ApiUrl;
 import cn.jiegeng.luobin.command.enums.HelloEnums;
 import cn.jiegeng.luobin.domain.dto.AnswerDto;
@@ -19,6 +20,8 @@ import net.mamoe.mirai.event.events.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 /**
  * 群消息事件,可接受私聊
  *
@@ -28,6 +31,7 @@ import org.springframework.stereotype.Component;
 @Component
 @Data
 public class GroupMessageEvent {
+    private static InteractService interactService;
     private static CpService cpService;
     private static RedisUtil redisUtil;
     private static PrivilegeMapper privilegeMapper;
@@ -39,13 +43,14 @@ public class GroupMessageEvent {
 
 
     @Autowired
-    public GroupMessageEvent(DialogueMapper mapper, DialogueService dialogueService, PrivilegeService privilegeService, PrivilegeMapper privilegeMapper, RedisUtil redisUtil, CpService cpService) {
+    public GroupMessageEvent(DialogueMapper mapper, DialogueService dialogueService, PrivilegeService privilegeService, PrivilegeMapper privilegeMapper, RedisUtil redisUtil, CpService cpService, InteractService interactService) {
         this.mapper = mapper;
         this.dialogueService = dialogueService;
         this.privilegeService = privilegeService;
         this.privilegeMapper = privilegeMapper;
         this.redisUtil = redisUtil;
         this.cpService = cpService;
+        this.interactService = interactService;
     }
 
     public GroupMessageEvent() {
@@ -82,7 +87,11 @@ public class GroupMessageEvent {
      */
     @CommandAnnotation(method = "桔梗桔梗 ")
     public static ListeningStatus getDialogue(MessageEvent event, String[] nrArr) {
-        String url = ApiUrl.Chat.getUrl() + nrArr[0];
+        StringBuilder builder = new StringBuilder();
+        for (String s : nrArr) {
+            builder.append(s);
+        }
+        String url = ApiUrl.Chat.getUrl() + builder;
         String s = HttpUtil.get(url);
         AnswerDto answerDto = JSON.parseObject(s, AnswerDto.class);
         long id = event.getSender().getId();
@@ -91,9 +100,20 @@ public class GroupMessageEvent {
         }
         event.getSubject().sendMessage(MasterUtil.commonSay(event).plus(answerDto.getContent()));
         return ListeningStatus.LISTENING;
+        /*StringBuilder builder=new StringBuilder();
+        ChatBO chatBO = new ChatBO();
+        chatBO.setSessionId(String.valueOf(event.getSender().getId()));
+        StringBuilder builder=new StringBuilder();
+        for (String s : nrArr) {
+            builder.append(s);
+        }
+
+        chatBO.setQuestion(builder.toString());
+        event.getSubject().sendMessage(interactService.chat(chatBO));
+        return ListeningStatus.LISTENING;*/
     }
 
-    @CommandAnnotation(method = "桔梗桔梗 add",privilege = 1)
+    @CommandAnnotation(method = "桔梗桔梗 add", privilege = 1)
     public static ListeningStatus addCommand(MessageEvent event, String[] nrArr) {
         privilegeService.addUser(event, nrArr);
         return ListeningStatus.LISTENING;
@@ -124,12 +144,29 @@ public class GroupMessageEvent {
         cpService.get(event, nrArr);
         return ListeningStatus.LISTENING;
     }
-    @CommandAnnotation(method = "桔梗桔梗 addC",privilege = 2)
+
+    @CommandAnnotation(method = "桔梗桔梗 addC", privilege = 2)
     public static ListeningStatus addC(MessageEvent event, String[] nrArr) {
 
         dialogueService.addC(event, nrArr);
         return ListeningStatus.LISTENING;
     }
 
+    @CommandAnnotation(method = "桔梗桔梗 weather")
+    public static ListeningStatus subWeather(MessageEvent event, String[] nrArr) {
+        redisUtil.lLeftPush("weather", "2097839141");
+        redisUtil.lLeftPush("weather", "2698087831");
+        redisUtil.lLeftPush("weather", "645680833");
+        if (event instanceof GroupMessageEvent) {
+            long id = ((net.mamoe.mirai.event.events.GroupMessageEvent) event).getGroup().getId();
+            event.getSubject().sendMessage(MasterUtil.commonSay(event).plus(HelloEnums.ADDWEATHER.getSayHello()).plus("\n明天消息将会在8：00准时送达(/≧▽≦)/"));
+            redisUtil.lLeftPush("weather", String.valueOf(id));
+            return ListeningStatus.LISTENING;
+        }
+        List<String> weather = redisUtil.lRange("weather", 0, -1);
+        redisUtil.lLeftPush("weather", String.valueOf(event.getSubject().getId()));
+        cpService.get(event, nrArr);
+        return ListeningStatus.LISTENING;
+    }
 
 }

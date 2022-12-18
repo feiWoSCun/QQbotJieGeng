@@ -1,28 +1,25 @@
 package cn.jiegeng.luobin.event.handler;
+
 import cn.jiegeng.luobin.util.MasterUtil;
 import cn.jiegeng.luobin.util.RedisUtil;
 import cn.jiegeng.luobin.util.ReflectUtil;
 import cn.jiegeng.luobin.util.StringUtils;
-import kotlin.coroutines.CoroutineContext;
 import net.mamoe.mirai.event.EventHandler;
 import net.mamoe.mirai.event.ListeningStatus;
 import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.MessageEvent;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Component;
 
 @Component("baseEvent")
 public class BaseEvent extends SimpleListenerHost {
+    //这个是要用的chatgpt
+
     final RedisUtil redisUtil;
 
     public BaseEvent(RedisUtil redisUtil) {
         this.redisUtil = redisUtil;
     }
 
-    @Override
-    public void handleException(@NotNull CoroutineContext context, @NotNull Throwable exception) {
-        throw new RuntimeException("出错");
-    }
 
     /**
      * 针对群消息的
@@ -34,7 +31,7 @@ public class BaseEvent extends SimpleListenerHost {
     public ListeningStatus sayHello(MessageEvent event) {
         long id = event.getSender().getId();
         String s = event.getMessage().contentToString();
-        boolean b = redisUtil.setMembers("command").stream().anyMatch(t -> t.equals(s)&&!"桔梗桔梗 hi".equals(s));
+        boolean b = redisUtil.setMembers("command").stream().anyMatch(t -> t.equals(s)&&!"桔梗桔梗 hi".equals(t)&&t.equals(s)&&!"桔梗桔梗 weather".equals(s));
         if(b){
             String member = redisUtil.sRandomMember(s);
             if (member!=null&&member.length()>0)

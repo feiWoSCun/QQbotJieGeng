@@ -9,6 +9,7 @@ import cn.jiegeng.luobin.mapper.CommandMapper;
 import cn.jiegeng.luobin.mapper.DialogueMapper;
 import cn.jiegeng.luobin.mapper.PrivilegeMapper;
 import cn.jiegeng.luobin.util.RedisUtil;
+import lombok.Data;
 import net.mamoe.mirai.Bot;
 import net.mamoe.mirai.BotFactory;
 import net.mamoe.mirai.event.GlobalEventChannel;
@@ -28,6 +29,7 @@ import java.util.Set;
  * 桔梗bot
  */
 @Component
+@Data
 public class JieGengBot implements ApplicationRunner {
 
     final DialogueMapper dialogueMapper;
