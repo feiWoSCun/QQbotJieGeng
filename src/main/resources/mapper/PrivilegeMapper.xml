@@ -10,10 +10,19 @@
         select *
         from privileges
     </select>
-    <insert id="addPrivilege" >
-        insert into privileges (qq_number, privileges) value (#{number},#{privilege}) ;
+    <insert id="addPrivilege">
+        insert into privileges (qq_number, privileges) value (#{number},#{privilege});
+    </insert>
+    <insert id="addCity">
+        insert into city values
+        <foreach collection="city" item="item" separator=",">
+            (#{item.code},#{item.government},#{item.location},#{item.spell})
+        </foreach>
+
     </insert>
     <update id="changePrivilege">
-        update privileges set privileges=#{privilege} where qq_number =#{number};
+        update privileges
+        set privileges=#{privilege}
+        where qq_number = #{number};
     </update>
 </mapper>

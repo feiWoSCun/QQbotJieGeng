@@ -1,6 +1,7 @@
 package cn.jiegeng.luobin.service.impl;
 
 import cn.jiegeng.luobin.command.enums.HelloEnums;
+import cn.jiegeng.luobin.domain.dto.City;
 import cn.jiegeng.luobin.mapper.PrivilegeMapper;
 import cn.jiegeng.luobin.service.PrivilegeService;
 import cn.jiegeng.luobin.util.MasterUtil;
@@ -9,11 +10,13 @@ import cn.jiegeng.luobin.util.StringUtils;
 import lombok.Data;
 import net.mamoe.mirai.event.events.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @Data
@@ -70,6 +73,24 @@ public class PrivilegeServiceImpl implements PrivilegeService {
         });
         thread.setName("添加用户线程");
         myPool.execute(thread);
+    }
+
+    @Override
+    @Transactional(rollbackFor = RuntimeException.class)
+    public int addCity(List<City> cities) {
+        AtomicInteger i= new AtomicInteger();
+        Thread thread = new Thread(() ->{
+            i.set(privilegeMapper.addCity(cities));
+        });
+        thread.setName("添加城市的线程");
+        myPool.execute(thread);
+        System.out.println(i);
+        return i.get();
+    }
+
+    @Override
+    public String getSpell(String location) {
+        return null;
     }
 
 

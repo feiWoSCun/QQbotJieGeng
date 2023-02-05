@@ -9,13 +9,16 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+/**
+ * @author feiwoscun
+ */
 @Component
 public class ReflectUtil {
     private static GroupMessageEvent groupMessageEvent;
 
     @Autowired
     public ReflectUtil(GroupMessageEvent groupMessageEvent) {
-        this.groupMessageEvent = groupMessageEvent;
+        ReflectUtil.groupMessageEvent = groupMessageEvent;
     }
 
     public static void reflectGroupEvent(String command, String[] nrArr, MessageEvent event) {

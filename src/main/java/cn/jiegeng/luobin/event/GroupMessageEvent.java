@@ -44,13 +44,13 @@ public class GroupMessageEvent {
 
     @Autowired
     public GroupMessageEvent(DialogueMapper mapper, DialogueService dialogueService, PrivilegeService privilegeService, PrivilegeMapper privilegeMapper, RedisUtil redisUtil, CpService cpService, InteractService interactService) {
-        this.mapper = mapper;
-        this.dialogueService = dialogueService;
-        this.privilegeService = privilegeService;
-        this.privilegeMapper = privilegeMapper;
-        this.redisUtil = redisUtil;
-        this.cpService = cpService;
-        this.interactService = interactService;
+        GroupMessageEvent.mapper = mapper;
+        GroupMessageEvent.dialogueService = dialogueService;
+        GroupMessageEvent.privilegeService = privilegeService;
+        GroupMessageEvent.privilegeMapper = privilegeMapper;
+        GroupMessageEvent.redisUtil = redisUtil;
+        GroupMessageEvent.cpService = cpService;
+        GroupMessageEvent.interactService = interactService;
     }
 
     public GroupMessageEvent() {
@@ -154,9 +154,9 @@ public class GroupMessageEvent {
 
     @CommandAnnotation(method = "桔梗桔梗 weather")
     public static ListeningStatus subWeather(MessageEvent event, String[] nrArr) {
-        redisUtil.lLeftPush("weather", "2097839141");
+        /*redisUtil.lLeftPush("weather", "2097839141");
         redisUtil.lLeftPush("weather", "2698087831");
-        redisUtil.lLeftPush("weather", "645680833");
+        redisUtil.lLeftPush("weather", "645680833");*/
         if (event instanceof GroupMessageEvent) {
             long id = ((net.mamoe.mirai.event.events.GroupMessageEvent) event).getGroup().getId();
             event.getSubject().sendMessage(MasterUtil.commonSay(event).plus(HelloEnums.ADDWEATHER.getSayHello()).plus("\n明天消息将会在8：00准时送达(/≧▽≦)/"));

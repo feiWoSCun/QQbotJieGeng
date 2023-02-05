@@ -1,4 +1,4 @@
-package cn.jiegeng.luobin.bot;
+package cn.jiegeng.luobin.configuration.bot;
 
 
 import cn.jiegeng.luobin.command.HelloCommand;

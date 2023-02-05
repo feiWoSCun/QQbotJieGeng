@@ -10,6 +10,9 @@ import net.mamoe.mirai.event.SimpleListenerHost;
 import net.mamoe.mirai.event.events.MessageEvent;
 import org.springframework.stereotype.Component;
 
+/**
+ * @author feiwoscun
+ */
 @Component("baseEvent")
 public class BaseEvent extends SimpleListenerHost {
     //这个是要用的chatgpt
@@ -22,8 +25,7 @@ public class BaseEvent extends SimpleListenerHost {
 
 
     /**
-     * 针对群消息的
-     *
+     * 针对所有消息的
      * @param event
      * @return
      */
@@ -34,8 +36,9 @@ public class BaseEvent extends SimpleListenerHost {
         boolean b = redisUtil.setMembers("command").stream().anyMatch(t -> t.equals(s)&&!"桔梗桔梗 hi".equals(t)&&t.equals(s)&&!"桔梗桔梗 weather".equals(s));
         if(b){
             String member = redisUtil.sRandomMember(s);
-            if (member!=null&&member.length()>0)
-            event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("").plus(member));
+            if (member!=null&&member.length()>0) {
+                event.getSubject().sendMessage(MasterUtil.commonSay(event).plus("").plus(member));
+            }
             return ListeningStatus.LISTENING;
         }
 

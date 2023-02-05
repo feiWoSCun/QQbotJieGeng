@@ -1,5 +1,6 @@
 package cn.jiegeng.luobin.mapper;
 
+import cn.jiegeng.luobin.domain.dto.City;
 import cn.jiegeng.luobin.domain.vo.UserPri;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -30,4 +31,10 @@ public interface PrivilegeMapper {
      * @return
      */
     List<UserPri> getAllQQNumberAndItsPri();
+
+    /**
+     * @param cities
+     * @return
+     */
+     int addCity (@Param("city") List<City> cities) ;
 }
