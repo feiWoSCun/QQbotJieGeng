@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
+
 /**
  * @author feiwoscun
  */
@@ -23,11 +24,11 @@ public class ReflectUtil {
 
     public static void reflectGroupEvent(String command, String[] nrArr, MessageEvent event) {
         //拿到反射方法
-            Method targetMethod = Arrays.stream(GroupMessageEvent.class.getDeclaredMethods()).filter(method -> method.
-                    getDeclaredAnnotation(CommandAnnotation.class)!=null).filter(method -> method.
+        Method targetMethod = Arrays.stream(GroupMessageEvent.class.getDeclaredMethods()).filter(method -> method.
+                getDeclaredAnnotation(CommandAnnotation.class) != null).filter(method -> method.
                 getDeclaredAnnotation(CommandAnnotation.class).method().equals(command)).findFirst().get();
         try {
-            targetMethod.invoke(groupMessageEvent, event, nrArr);
+             targetMethod.invoke(groupMessageEvent, event, nrArr);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (InvocationTargetException e) {

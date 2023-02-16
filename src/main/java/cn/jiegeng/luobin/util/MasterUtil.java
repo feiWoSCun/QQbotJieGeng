@@ -71,8 +71,12 @@ public class MasterUtil {
      * @return
      */
     public static Boolean judgeIfStartWith(String target) {
-        if (StringUtils.isEmpty(target)) return false;
-        else return redisUtil.setMembers("command").stream().anyMatch(t -> target.startsWith(t));
+        if (StringUtils.isEmpty(target)) {
+            return false;}
+        else{
+            Set<String> command = redisUtil.setMembers("command");
+            return redisUtil.setMembers("command").stream().anyMatch(t -> target.startsWith(t));
+        }
     }
 
     /**

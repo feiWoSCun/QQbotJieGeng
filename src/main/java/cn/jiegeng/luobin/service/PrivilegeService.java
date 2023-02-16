@@ -2,6 +2,7 @@ package cn.jiegeng.luobin.service;
 
 import cn.jiegeng.luobin.domain.dto.City;
 import net.mamoe.mirai.event.events.MessageEvent;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 

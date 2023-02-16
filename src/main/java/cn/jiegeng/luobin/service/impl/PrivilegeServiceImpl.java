@@ -10,6 +10,7 @@ import cn.jiegeng.luobin.util.StringUtils;
 import lombok.Data;
 import net.mamoe.mirai.event.events.MessageEvent;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,10 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Service
+/**
+ * @author 28250
+ */
+@Component
 @Data
 public class PrivilegeServiceImpl implements PrivilegeService {
     @Resource(name = "pool")
@@ -75,6 +79,11 @@ public class PrivilegeServiceImpl implements PrivilegeService {
         myPool.execute(thread);
     }
 
+    /**
+     * 添加城市
+     * @param cities
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = RuntimeException.class)
     public int addCity(List<City> cities) {
@@ -84,7 +93,7 @@ public class PrivilegeServiceImpl implements PrivilegeService {
         });
         thread.setName("添加城市的线程");
         myPool.execute(thread);
-        System.out.println(i);
+        System.out.println(thread.getId()+thread.getName());
         return i.get();
     }
 

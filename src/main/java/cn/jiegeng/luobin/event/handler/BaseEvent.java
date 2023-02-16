@@ -33,7 +33,8 @@ public class BaseEvent extends SimpleListenerHost {
     public ListeningStatus sayHello(MessageEvent event) {
         long id = event.getSender().getId();
         String s = event.getMessage().contentToString();
-        boolean b = redisUtil.setMembers("command").stream().anyMatch(t -> t.equals(s)&&!"桔梗桔梗 hi".equals(t)&&t.equals(s)&&!"桔梗桔梗 weather".equals(s));
+        boolean b = redisUtil.setMembers("command").
+                stream().anyMatch(t -> t.equals(s)&&!"桔梗桔梗 hi".equals(t)&&t.equals(s)&&!"桔梗桔梗 weather".equals(s));
         if(b){
             String member = redisUtil.sRandomMember(s);
             if (member!=null&&member.length()>0) {

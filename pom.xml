@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>cn.mikulink</groupId>
-    <artifactId>rabbitbot</artifactId>
+    <artifactId>jiegeng</artifactId>
     <version>v1.3.8</version>
     <name>RabbitBot_RE</name>
     <description>for the Resien</description>
@@ -28,12 +28,11 @@
             <artifactId>easyexcel</artifactId>
             <version>3.2.0</version>
         </dependency>
-
-        <dependency>
-            <groupId>com.github.plexpt</groupId>
-            <artifactId>chatgpt</artifactId>
-            <version>1.0.3</version>
-        </dependency>
+            <dependency>
+                <groupId>com.github.plexpt</groupId>
+                <artifactId>chatgpt</artifactId>
+                <version>1.2.0</version>
+            </dependency>
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
@@ -120,12 +119,12 @@
         <dependency>
             <groupId>net.mamoe</groupId>
             <artifactId>mirai-core-jvm</artifactId>
-            <version>2.12.0</version>
+            <version>2.14.0</version>
         </dependency>
         <dependency>
             <groupId>net.mamoe</groupId>
             <artifactId>mirai-core-api-jvm</artifactId>
-            <version>2.12.0</version>
+            <version>2.14.0</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>

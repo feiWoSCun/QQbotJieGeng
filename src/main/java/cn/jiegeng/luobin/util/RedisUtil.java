@@ -1,5 +1,6 @@
 package cn.jiegeng.luobin.util;
 
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.Cursor;
@@ -11,12 +12,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Collection;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -389,10 +386,11 @@ public class RedisUtil {
      * 获取所有给定字段的值
      *
      * @param key
-     * @return
+     * @return 配置redistemplate
      */
-    public Map<Object, Object> hGetAll(String key) {
-        return redisTemplate.opsForHash().entries(key);
+    public<T,V>  Map<T, V> hGetAll(final String key, Class<T> tClass,Class<V> vClass) {
+        Map<Object, Object> entries = redisTemplate.opsForHash().entries(key);
+      return   (Map<T,V>)entries;
     }
 
     /**
